@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  nginx:
+    build:
+      context: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www
+      - ./nginx/sites:/etc/nginx/sites-available
+    expose:
+      - "80"
+  php-fpm:
+    build:
+      context: php-fpm
+    volumes:
+      - .:/var/www
+    expose:
+        - "9000"
+  redis:
+    build:
+      context: redis
+    volumes:
+      - ./redis:/data
