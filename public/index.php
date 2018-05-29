@@ -4,8 +4,6 @@ require '../src/report.php';
 
 $redis = new Redis();
 $redis->connect('redis', 6379);
-$err = [];
-$res;
 $reqAccept = $_SERVER['HTTP_ACCEPT'];
 
 if ($_SERVER['REQUEST_URI'] === '/data') {
@@ -17,8 +15,8 @@ if ($_SERVER['REQUEST_URI'] === '/data') {
       $err = $process->error;
       break;
     case 'GET':
-      $report = new Report($redis);
-      $resp = $report->response($reqAccept);
+      $report = new Report($redis, $reqAccept);
+      $resp = $report->response();
       $err = $report->error;
       break;
     default:

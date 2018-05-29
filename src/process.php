@@ -31,6 +31,21 @@ class Process
       ];
       return false;
     }
+    switch ($this->payload->event) {
+      case 'click':
+        return true;
+      case 'view':
+        return true;
+      case 'play':
+        return true;
+      default:
+        $this->error = [
+          'code' => '400',
+          'msg' => 'event should be click, view, play'
+        ];
+        return false;
+        break;
+    }
     return true;
   }
 
@@ -51,11 +66,9 @@ class Process
 
   public function response()
   {
-    $r = [];
-    // foreach ($this->redis->keys('*') as $key) {
-      // $r[$key] = $this->redis->get($key);
-    // };
-    // $r['scores'] = $this->redis->zRevRange('countries', 0, 4, true);
+    $r = [
+      'status' => true
+    ];
     return [
       'body' => json_encode($this->error ?? $r)
     ];
